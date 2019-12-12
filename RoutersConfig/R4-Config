@@ -1,0 +1,141 @@
+d. Show run R4:
+  R4#show run
+  Building configuration...
+
+  Current configuration : 1630 bytes
+  !
+  version 15.2
+  service timestamps debug datetime msec
+  service timestamps log datetime msec
+  no service password-encryption
+  !
+  hostname R4
+  !
+  boot-start-marker
+  boot-end-marker
+  !
+  !
+  !
+  no aaa new-model
+  clock timezone PST -8 0
+  mmi polling-interval 60
+  no mmi auto-configure
+  no mmi pvc
+  mmi snmp-timeout 180
+  !
+  !
+  !
+  !
+
+
+  !
+  !
+  !
+  !
+  no ip domain lookup
+  ip cef
+  ipv6 unicast-routing
+  ipv6 cef
+  !
+  multilink bundle-name authenticated
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  redundancy
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  interface Loopback21
+   ip address 172.16.21.1 255.255.255.0
+   ip ospf 10 area 2
+   ipv6 address 2001:DB8:0:1::1/64
+   ipv6 ospf 20 area 2
+  !
+  interface Loopback22
+   ip address 172.16.22.1 255.255.255.0
+   ip ospf 10 area 2
+   ipv6 address 2001:DB8:0:2::1/64
+   ipv6 ospf 20 area 2
+  !
+  interface Loopback23
+   ip address 172.16.23.1 255.255.255.0
+   ip ospf 10 area 2
+   ipv6 address 2001:DB8:0:3::1/64
+   ipv6 ospf 20 area 2
+  !
+  interface Loopback24
+   ip address 172.16.24.1 255.255.255.0
+   ip ospf 10 area 2
+   ipv6 address 2001:DB8:0:4::1/64
+   ipv6 ospf 20 area 2
+  !
+  interface Serial0/0
+   ip address 172.16.11.1 255.255.255.0
+   ip ospf 10 area 2
+   ipv6 address 2001:DB8:0:5::1/64
+   ipv6 ospf 20 area 2
+   serial restart-delay 0
+  !
+  interface Serial0/1
+   no ip address
+   shutdown
+   serial restart-delay 0
+  !
+  interface Serial0/2
+   no ip address
+   shutdown
+   serial restart-delay 0
+  !
+  interface Serial0/3
+   no ip address
+   shutdown
+   serial restart-delay 0
+  !
+  router ospf 10
+  !
+  ip forward-protocol nd
+  !
+  !
+  no ip http server
+  no ip http secure-server
+  !
+  ipv6 router ospf 20
+  !
+  !
+  !
+  !
+  control-plane
+  !
+  !
+  !
+  !
+  !
+  !
+  !
+  line con 0
+   exec-timeout 0 0
+   logging synchronous
+  line aux 0
+  line vty 0 4
+   login
+   transport input all
+  !
+  !
+  end
