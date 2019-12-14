@@ -1,0 +1,154 @@
+R2#show config
+Using 3813 out of 262144 bytes
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback11
+ ip address 10.10.11.1 255.255.255.0
+ ipv6 address 2001:DB8:10:11::1/64
+ ipv6 eigrp 200
+!
+interface Loopback12
+ ip address 10.10.12.1 255.255.255.0
+ ipv6 address 2001:DB8:10:12::1/64
+ ipv6 eigrp 200
+!
+interface Loopback13
+ ip address 10.10.13.1 255.255.255.0
+ ipv6 address 2001:DB8:10:13::1/64
+ ipv6 eigrp 200
+!
+interface Loopback14
+ ip address 10.10.14.1 255.255.255.0
+ ipv6 address 2001:DB8:10:14::1/64
+ ipv6 eigrp 200
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 172.16.13.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address 2001:DB8:0:13::2/64
+ ipv6 enable
+ ipv6 eigrp 200
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 100
+ network 10.10.11.0 0.0.0.255
+ network 10.10.12.0 0.0.0.255
+ network 10.10.13.0 0.0.0.255
+ network 10.10.14.0 0.0.0.255
+ network 172.16.13.0 0.0.0.255
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 router eigrp 200
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+ transport input all
+!
+no scheduler allocate
+!
+end
+
+R2#

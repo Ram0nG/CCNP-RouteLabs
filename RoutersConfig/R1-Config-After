@@ -1,0 +1,144 @@
+R1#show config
+Using 3688 out of 262144 bytes
+!
+! Last configuration change at 18:05:04 UTC Sat Dec 14 2019
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description COONECTION TO R2
+ ip address 172.16.13.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address 2001:DB8:0:13::1/64
+ ipv6 eigrp 200
+!
+interface GigabitEthernet0/1
+ description CONNECTION TO R3
+ ip address 172.16.12.2 255.255.255.0
+ ip ospf 10 area 0
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address 2001:DB8:0:10::2/64
+ ipv6 ospf 20 area 0
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+!
+router eigrp 100
+ network 172.16.13.0 0.0.0.255
+ redistribute ospf 10 metric 1500 100 255 1 1500
+!
+router ospf 10
+ redistribute eigrp 100 metric-type 1 subnets
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 router eigrp 200
+ redistribute ospf 20 metric 1500 100 255 1 1500 include-connected
+!
+ipv6 router ospf 20
+ redistribute eigrp 200 include-connected
+!
+!
+!
+!
+control-plane
+!
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login
+ transport input all
+!
+no scheduler allocate
+!
+end
+
+R1#
